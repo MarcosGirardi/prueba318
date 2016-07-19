@@ -29,6 +29,18 @@ class InitService {
           SecUserSecRole.create userUser, userRole
         }
 
+      def sudoUser = SecUser.findByUsername('sudo') ?: new SecUser(
+                username: 'sudo',
+                password: 'sudo',
+                enabled: true).save(failOnError: true)
+
+      if (!sudoUser.authorities.contains(adminRole)) {
+          SecUserSecRole.create sudoUser, adminRole
+        }
+      if (!sudoUser.authorities.contains(userRole)) {
+          SecUserSecRole.create sudoUser, userRole
+        }
+
       log.println("321")
 
 

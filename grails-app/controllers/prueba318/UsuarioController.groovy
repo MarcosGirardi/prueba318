@@ -12,13 +12,43 @@ class UsuarioController {
 
     @Secured(['ROLE_USER', 'ROLE_ADMIN', 'IS_AUTHENTICATED_FULLY'])
     def index(Integer max) {
+
+      def asd =  getPrincipal().authorities.join(", ").contains(Constants.USER_ROLE)
+      log.println("${asd}")
+      log.println(getAuthenticatedUser().id)
+      log.println(getAuthenticatedUser().getClass())
+
+      if (asd){
+        log.println("asdasd")
+        def forms
+        def f = Usuario.createCriteria()
+        forms = f{
+          eq("id", getAuthenticatedUser().id)
+        }
+        respond forms, model:[usuarioCount: Usuario.count()]
+      } else{
+        log.println("321321")
         params.max = Math.min(max ?: 10, 100)
         respond Usuario.list(params), model:[usuarioCount: Usuario.count()]
+      }
+
     }
 
     @Secured(['ROLE_USER', 'ROLE_ADMIN', 'IS_AUTHENTICATED_FULLY'])
     def show(Usuario usuario) {
-        respond usuario
+
+      def asd =  getPrincipal().authorities.join(", ").contains(Constants.USER_ROLE)
+      log.println("${asd}")
+      log.println(getAuthenticatedUser().id)
+      log.println(getAuthenticatedUser().getClass())
+
+      if ((asd && usuario.id == getAuthenticatedUser().id) || !asd){
+          respond usuario
+      }else {
+          flash.message = message(code: 'No puede ver este usuario')
+          redirect action:"index", method:"GET"
+      }
+
     }
 
     @Secured(['ROLE_ADMIN', 'IS_AUTHENTICATED_FULLY'])
@@ -59,7 +89,19 @@ class UsuarioController {
 
     @Secured(['ROLE_USER', 'IS_AUTHENTICATED_FULLY'])
     def edit(Usuario usuario) {
-        respond usuario
+
+      def asd =  getPrincipal().authorities.join(", ").contains(Constants.USER_ROLE)
+      log.println("${asd}")
+      log.println(getAuthenticatedUser().id)
+      log.println(getAuthenticatedUser().getClass())
+
+      if ((asd && usuario.id == getAuthenticatedUser().id) || !asd){
+          respond usuario
+      }else {
+          flash.message = message(code: 'No puede modificar este usuario')
+          redirect action:"index", method:"GET"
+      }
+
     }
 
     @Transactional
