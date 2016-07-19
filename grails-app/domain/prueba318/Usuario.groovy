@@ -1,6 +1,6 @@
 package prueba318
 
-class Usuario {
+class Usuario extends SecUser{
 
   String    nombre
   String    apellido
