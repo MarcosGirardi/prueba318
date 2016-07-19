@@ -43,6 +43,11 @@ class UsuarioController {
 
         usuario.save flush:true
 
+        def role = SecRole.findByAuthority(usuario.role)
+          if (!usuario.authorities.contains(role)) {
+            SecUserSecRole.create usuario, role
+          }
+
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'usuario.label', default: 'Usuario'), usuario.id])

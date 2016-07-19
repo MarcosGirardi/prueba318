@@ -27,9 +27,9 @@ class SecUser implements Serializable {
 	}
 
 	def beforeUpdate() {
-		if (isDirty('password')) {
+		/*if (isDirty('password')) {
 			encodePassword()
-		}
+		}*/
 	}
 
 	protected void encodePassword() {
@@ -39,7 +39,7 @@ class SecUser implements Serializable {
 	static transients = ['springSecurityService']
 
 	static constraints = {
-		password blank: false, password: true
+		password nullable:true, password: true
 		username blank: false, unique: true
 	}
 
