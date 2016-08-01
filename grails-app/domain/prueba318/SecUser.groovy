@@ -13,7 +13,7 @@ class SecUser implements Serializable {
 
 	String username
 	String password
-	boolean enabled = true
+	boolean enabled = false
 	boolean accountExpired
 	boolean accountLocked
 	boolean passwordExpired
@@ -27,9 +27,9 @@ class SecUser implements Serializable {
 	}
 
 	def beforeUpdate() {
-		/*if (isDirty('password')) {
+		if (isDirty('password')) {
 			encodePassword()
-		}*/
+		}
 	}
 
 	protected void encodePassword() {
@@ -39,7 +39,7 @@ class SecUser implements Serializable {
 	static transients = ['springSecurityService']
 
 	static constraints = {
-		password nullable:true, password: true
+		password blank: false, password: true
 		username blank: false, unique: true
 	}
 

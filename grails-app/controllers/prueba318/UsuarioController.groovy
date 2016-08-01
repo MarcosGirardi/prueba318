@@ -4,7 +4,6 @@ import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 
-
 @Transactional(readOnly = true)
 class UsuarioController {
 
@@ -13,13 +12,12 @@ class UsuarioController {
     @Secured(['ROLE_USER', 'ROLE_ADMIN', 'IS_AUTHENTICATED_FULLY'])
     def index(Integer max) {
 
-      def asd =  getPrincipal().authorities.join(", ").contains(Constants.USER_ROLE)
+      def asd = getPrincipal().authorities.join(", ").contains(Constants.USER_ROLE)
       log.println("${asd}")
       log.println(getAuthenticatedUser().id)
       log.println(getAuthenticatedUser().getClass())
 
-      if (asd){
-        log.println("asdasd")
+      if (getPrincipal().authorities.join(", ").contains(Constants.USER_ROLE)){
         def forms
         def f = Usuario.createCriteria()
         forms = f{
@@ -27,7 +25,6 @@ class UsuarioController {
         }
         respond forms, model:[usuarioCount: Usuario.count()]
       } else{
-        log.println("321321")
         params.max = Math.min(max ?: 10, 100)
         respond Usuario.list(params), model:[usuarioCount: Usuario.count()]
       }

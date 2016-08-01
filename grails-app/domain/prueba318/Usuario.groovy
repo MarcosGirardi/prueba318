@@ -16,19 +16,24 @@ class Usuario extends SecUser{
   String    mailTrabajo
   String    mailOtro
 
-  String    role
+  static belongsTo = [role: SecRole]
 
     static constraints = {
+      role        ()
       nombre      (nullable:true)
       apellido    (nullable:true)
       dni         (nullable:true)
       direccion   (nullable:true)
       telCasa     (nullable:true)
+      telCelular  (nullable:true)
       telTrabajo  (nullable:true)
       telTutor    (nullable:true)
       mailPart    (nullable:true)
       mailTrabajo (nullable:true)
       mailOtro    (nullable:true)
-      role        (inList:[Constants.USER_ROLE, Constants.ADMIN_ROLE])
+
     }
+
+    String toString() {"${this.nombre} ${this.apellido}" }
+
 }

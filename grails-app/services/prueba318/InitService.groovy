@@ -41,6 +41,19 @@ class InitService {
           SecUserSecRole.create sudoUser, userRole
         }
 
+      def str = "marcos"
+      def hashed1 = str.encodeAsMD5()
+      def hashed2 = str.encodeAsMD5Bytes()
+      def hashed3 = str.encodeAsSHA1()
+      def hashed4 = str.encodeAsSHA1Bytes()
+      log.println("String original: ${str}")
+      log.println("MD5 hash:        ${hashed1}")
+      log.println("MD5Bytes hash:   ${hashed2}")
+      log.println("SHA-1 hash:      ${hashed3}")
+      log.println("SHA-1Bytes hash: ${hashed4}")
+
+
+
       log.println("321")
 
 
